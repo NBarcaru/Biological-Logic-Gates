@@ -1,0 +1,56 @@
+import numpy as np
+from scipy.integrate import odeint
+import matplotlib.pyplot as plt
+ 
+def eqnode(z,t):
+    a = 1
+    b = 1
+    g = 0.3
+    x = z[0]
+    y = z[1]
+    dxdt = (a/(1+y**4)) - (g*x)
+    dydt = b/(1+x**4) - g*y
+    f = [dxdt,dydt]
+    return f
+
+def eqnode2(z,t):
+    a = 1
+    b = 1
+    g = 0.3
+    x = z[0]
+    y = z[1]
+    dydt = (a/(1+y**4)) - (g*x)
+    dxdt = b/(1+x**4) - g*y
+    f = [dxdt,dydt]
+    return f
+
+z0 = [1,2]
+t = np.linspace(0,200,2001)
+z = odeint(eqnode,z0,t)
+
+x = z[:,0]
+y = z[:,1]
+
+plt.figure()
+plt.title('Toggle Switch')
+plt.plot(t,x,'r', label = 'conc. X')
+plt.plot(t,y,'b', label = 'Conc. Y')
+plt.xlabel('time')
+plt.ylabel('Protein Conc.')
+plt.legend()
+
+
+alf = 1
+gam = 0.3
+bet = 1
+
+
+yp1 = np.arange(0,10,0.01)
+xp1 = alf/gam/(1 + yp1**4)
+xp2 = np.arange(0,10,0.01)
+yp2 = bet/gam/(1 + xp2**4)
+
+plt.figure()
+plt.title('Nullclines in phase plane')
+plt.plot(xp1,yp1,'r')
+plt.plot(xp2,yp2,'b')
